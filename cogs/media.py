@@ -21,8 +21,8 @@ class MediaCog(commands.Cog, name="Media Commands"):
         danbooru_api = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"
         login = config['danbooru_login']
         token = config['danbooru_token']
-
-        response = requests.get(danbooru_api.format(args), auth=(login, token)).json()
+        tags = " ".join(args)
+        response = requests.get(danbooru_api.format(tags), auth=(login, token)).json()
         lewd = None
         try:
             if args:
@@ -31,21 +31,21 @@ class MediaCog(commands.Cog, name="Media Commands"):
                     post = response[0]['source']
                 lewd = {'post': post, 'id': response[0]['id']}
         except:
-            await ctx.send("No images found, or incorrect query structure.")
+            await ctx.send("No images found, or incorrect query structure. Tags are limited to 2 and space delimited. Example: !lewd huge_breasts muscular_female")
 
         post_url = "http://danbooru.donmai.us/posts/{}"
 
-        embed = Embed()
-        embed.type = "rich"
-        embed.colour = Colour.magenta()
-        embed.set_image(
-            url=lewd['post']
+        embed = Embed(
+            type = "rich",
+            colour = Colour.magenta()
         )
-        embed.set_footer(
-            text=post_url.format(lewd['id'])
-        )
+        embed.set_image(url=lewd['post'])
+        embed.set_footer(text=post_url.format(lewd['id']))
         
-        await ctx.send(None, embed=embed)
+        if ctx.channel.is_nsfw():
+            await ctx.send(None, embed=embed)
+        else:
+            await ctx.send("Try again in a NSFW channel, retard.")
 
 def setup(bot):
     bot.add_cog(MediaCog(bot))

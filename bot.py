@@ -8,7 +8,7 @@ import requests
 
 bot = commands.Bot(command_prefix=config['command_prefix'])
 
-extensions = ['cogs.media', 'cogs.events', 'cogs.stuff']
+extensions = ['cogs.media', 'cogs.events', 'cogs.stuff', 'cogs.text']
 
 if __name__ == '__main__':
     for extension in extensions:
