@@ -9,7 +9,7 @@ class MediaCog(commands.Cog, name="Media Commands"):
         self.bot = bot
 
     @commands.command(name='yt')
-    async def youtube_search(self, ctx, args):
+    async def youtube_search(self, ctx, *args):
         vid_search_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q={}&key={}"
         response = requests.get(vid_search_url.format(args, config['youtube_token'])).json()
         videoId = response['items'][0]['id']['videoId']
@@ -17,7 +17,7 @@ class MediaCog(commands.Cog, name="Media Commands"):
         await ctx.send(f"https://www.youtube.com/watch?v={videoId}")
 
     @commands.command(name='lewd')
-    async def danbooru_search(self, ctx, args):
+    async def danbooru_search(self, ctx, *args):
         danbooru_api = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"
         login = config['danbooru_login']
         token = config['danbooru_token']
