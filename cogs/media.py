@@ -29,18 +29,19 @@ class MediaCog(commands.Cog, name="Media Commands"):
                 post = response[0]['file_url']
                 if (post == None):
                     post = response[0]['source']
-                lewd = {'post': post, 'id': response[0]['id']}
+                lewd = {'post': post, 'id': response[0]['id'], 'artist': response[0]['tag_string_artist']}
         except:
             await ctx.send("No images found, or incorrect query structure. Tags are limited to 2 and space delimited. Example: !lewd huge_breasts muscular_female")
 
         post_url = "http://danbooru.donmai.us/posts/{}"
 
         embed = Embed(
+            title = f"http://danbooru.donmai.us/posts/{lewd['id']}",
             type = "rich",
             colour = Colour.magenta()
         )
         embed.set_image(url=lewd['post'])
-        embed.set_footer(text=post_url.format(lewd['id']))
+        embed.set_footer(text=f"Artist: {lewd['artist'].replace('_', ' ').title()}")
         
         if ctx.channel.is_nsfw():
             await ctx.send(None, embed=embed)
