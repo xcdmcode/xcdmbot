@@ -2,6 +2,7 @@ import discord
 from discord import Colour, Embed
 from discord.ext import commands
 import re
+from datetime import datetime, timedelta, timezone
 
 class StuffCog(commands.Cog, name="Random Commands"):
     def __init__(self, bot):
@@ -33,6 +34,18 @@ class StuffCog(commands.Cog, name="Random Commands"):
                 embed.set_image(url=e.url)
 
         await ctx.send(None, embed=embed)
+
+    @commands.command(name='bannerlord')
+    async def bannerlord(self, ctx):
+        release_date = datetime(2020, 3, 30, 10, 0, 0, 0) - datetime.utcnow()
+        hours = release_date.seconds // 3600
+        minutes = (release_date.seconds // 60) % 60
+        seconds = release_date.seconds % 60
+
+        if release_date <= timedelta(0):
+             await ctx.send(f"Bannerlord has been released! :soypepe:\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
+        else:
+            await ctx.send(f"Only **__{release_date.days} days, {hours} hours, {minutes} minutes and {seconds} seconds__** left before Bannerlord is released! :soypepe:")
 
 def setup(bot):
     bot.add_cog(StuffCog(bot))
