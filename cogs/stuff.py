@@ -28,12 +28,18 @@ class StuffCog(commands.Cog, name="Random Commands"):
 
     @commands.command(name='e')
     async def large_emoji(self, ctx, arg):
-        embed = Embed()      
-        for e in ctx.guild.emojis:
-            if e.name == re.search(r":.*:", arg)[0].replace(':', ''):
-                embed.set_image(url=e.url)
+        embed = Embed()
+        emoji = None
+        if re.match(r":.*:", arg):
+            for e in ctx.guild.emojis:
+                if e.name == re.search(r":.*:", arg)[0].replace(':', ''):
+                    emoji = e
 
-        await ctx.send(None, embed=embed)
+        if emoji != None:
+            embed.set_image(url=emoji.url)
+            await ctx.send(None, embed=embed)
+        else:
+            await ctx.send(f"\"{arg}\" is invalid. The command only works for this server's emoji.")
 
     @commands.command(name='bannerlord')
     async def bannerlord(self, ctx):
@@ -43,9 +49,9 @@ class StuffCog(commands.Cog, name="Random Commands"):
         seconds = release_date.seconds % 60
 
         if release_date <= timedelta(0):
-             await ctx.send(f"Bannerlord has been released! :soypepe:\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
+            await ctx.send(f"Bannerlord has been released! <:soypepe:432601353148301323>\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
         else:
-            await ctx.send(f"Only **__{release_date.days} days, {hours} hours, {minutes} minutes and {seconds} seconds__** left before Bannerlord is released! :soypepe:")
+            await ctx.send(f"Only **__{release_date.days} days, {hours} hours, {minutes} minutes and {seconds} seconds__** left before Bannerlord is released! <:soypepe:432601353148301323>")
 
 def setup(bot):
     bot.add_cog(StuffCog(bot))
