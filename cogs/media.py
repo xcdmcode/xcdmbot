@@ -18,32 +18,31 @@ class MediaCog(commands.Cog, name="Media Commands"):
 
     @commands.command(name='lewd')
     async def danbooru_search(self, ctx, *args):
-        danbooru_api = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"
-        login = config['danbooru_login']
-        token = config['danbooru_token']
-        tags = " ".join(args)
-        response = requests.get(danbooru_api.format(tags), auth=(login, token)).json()
-        lewd = None
-        try:
-            if args:
-                post = response[0]['file_url']
-                if (post == None):
-                    post = response[0]['source']
-                lewd = {'post': post, 'id': response[0]['id'], 'artist': response[0]['tag_string_artist']}
-        except:
-            await ctx.send("No images found, or incorrect query structure. Tags are limited to 2 and space delimited. Example: !lewd huge_breasts muscular_female")
-
-        post_url = "http://danbooru.donmai.us/posts/{}"
-
-        embed = Embed(
-            title = f"http://danbooru.donmai.us/posts/{lewd['id']}",
-            type = "rich",
-            colour = Colour.magenta()
-        )
-        embed.set_image(url=lewd['post'])
-        embed.set_footer(text=f"Artist: {lewd['artist'].replace('_', ' ').title()}")
-        
         if ctx.channel.is_nsfw():
+            danbooru_api = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"
+            login = config['danbooru_login']
+            token = config['danbooru_token']
+            tags = " ".join(args)
+            response = requests.get(danbooru_api.format(tags), auth=(login, token)).json()
+            lewd = None
+            try:
+                if args:
+                    post = response[0]['file_url']
+                    if (post == None):
+                        post = response[0]['source']
+                    lewd = {'post': post, 'id': response[0]['id'], 'artist': response[0]['tag_string_artist']}
+            except:
+                await ctx.send("No images found, or incorrect query structure. Tags are limited to 2 and space delimited. Example: !lewd huge_breasts muscular_female")
+
+            post_url = "http://danbooru.donmai.us/posts/{}"
+
+            embed = Embed(
+                title = f"http://danbooru.donmai.us/posts/{lewd['id']}",
+                type = "rich",
+                colour = Colour.magenta()
+            )
+            embed.set_image(url=lewd['post'])
+            embed.set_footer(text=f"Artist: {lewd['artist'].replace('_', ' ').title()}")
             await ctx.send(None, embed=embed)
         else:
             await ctx.send("Try again in a NSFW channel, retard.")
