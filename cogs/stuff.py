@@ -23,8 +23,7 @@ class StuffCog(commands.Cog, name="Random Commands"):
 
     @commands.command(name='alerta', aliases=['macaco'])
     async def alerta(self, ctx):
-        await ctx.send(":monkey: :rotating_light: :monkey: :warning: **ALERTA DE MACACO** :warning: :monkey: :rotating_light: :monkey:")
-        await ctx.send("https://files.catbox.moe/09e6gr.mp4")
+        await ctx.send(":monkey: :rotating_light: :monkey: :warning: **ALERTA DE MACACO** :warning: :monkey: :rotating_light: :monkey:\nhttps://files.catbox.moe/09e6gr.mp4")
 
     @commands.command(name='e')
     async def large_emoji(self, ctx, arg):
