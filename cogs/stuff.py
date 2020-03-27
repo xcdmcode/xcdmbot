@@ -22,6 +22,16 @@ class StuffCog(commands.Cog, name="Random Commands"):
         embed.set_footer(text="COPERIGHTED. ALL RIGHTS RESERVED. PROTECTED BY INTERNATIONAL SEETHINGS.")
         await ctx.send(None, embed=embed)
 
+    
+    @commands.command(name='pizza', aliases=['pizza_machowave'])
+    async def pizza(self, ctx):
+        embed = Embed(
+            type = "rich",
+            colour = Colour.green()
+        )
+        embed.set_image(url="https://cdn.discordapp.com/attachments/692486367422447649/693246228238172170/pizza.jpg")
+        await ctx.send(None, embed=embed)
+
     @commands.command(name='alerta', aliases=['macaco'])
     async def alerta(self, ctx):
         await ctx.send(":monkey: :rotating_light: :monkey: :warning: **ALERTA DE MACACO** :warning: :monkey: :rotating_light: :monkey:\nhttps://files.catbox.moe/09e6gr.mp4")
