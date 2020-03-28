@@ -38,7 +38,7 @@ class SearchCog(commands.Cog, name="Search Commands"):
             )
             embed.set_author(
                 name=f"Google search results for \"{query}\":",
-                url="https://www.google.com",
+                url=f"https://www.google.com/search?q={query}",
                 icon_url="https://cdn.discordapp.com/attachments/692486367422447649/693347077115084830/google_icon.png"
             )
             for result in results:
