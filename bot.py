@@ -9,7 +9,7 @@ from update import periodic_autoupdate
 
 bot = commands.Bot(command_prefix=config['command_prefix'])
 
-extensions = ['cogs.events', 'cogs.media', 'cogs.stuff', 'cogs.text']
+extensions = ['cogs.events', 'cogs.media', 'cogs.search', 'cogs.stuff', 'cogs.text']
 
 if __name__ == '__main__':
     periodic_autoupdate()
