@@ -40,9 +40,10 @@ class StuffCog(commands.Cog, name="Random Commands"):
     async def large_emoji(self, ctx, arg):
         embed = Embed()
         emoji = None
-        if re.match(r":.*:", arg):
+        match = re.search(r":.*:", arg)
+        if bool(match):
             for e in ctx.guild.emojis:
-                if e.name == re.search(r":.*:", arg)[0].replace(':', ''):
+                if e.name == match[0].replace(':', ''):
                     emoji = e
 
         if emoji != None:
