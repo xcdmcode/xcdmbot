@@ -4,46 +4,46 @@ from discord.ext import commands
 import requests
 from bs4 import BeautifulSoup
 import time
+import textwrap
 
-def google_search(args):
-    google_search_url = "https://www.google.com/search?q={}&num=5"
 
-    params = {'safe': 'off', 'lr': 'lang_en', 'hl': 'en'}
+# Scrapes the DuckDuckGo search results page and returns a list of 5 tuples containing a result's title and url.
+def ddg_search(args):
+    ddg_search_url = "https://duckduckgo.com/html/?q={}"
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux i586; rv:31.0) Gecko/20100101 Firefox/74.00'}
 
-    page = requests.get(google_search_url.format("+".join(args)), params=params, headers=headers)
-    soup = BeautifulSoup(page.content, "html.parser")
-    links = soup.findAll("a")
+    page = requests.get(ddg_search_url.format("+".join(args)), headers=headers)
+    soup = BeautifulSoup(page.text, "html.parser")
+    links = soup.findAll('a', {'class': 'result__a'})
     results = []
-    for link in links:
+    for link in links[:5]:
         link_href = link.get('href')
         if link_href != None:
-            if "google.com" not in link_href and "webcache" not in link_href and link_href.startswith("http") and len(link.contents) > 1:
-                results.append((link.contents[1].text, link_href))
-    return results[:5]
+                results.append((link.text, link_href))
+    return results
 
 class SearchCog(commands.Cog, name="Search Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='google')
-    async def google_search(self, ctx, *args):
+    @commands.command(name='search', aliases=['s', 'ddg', 'google'])
+    async def ddg_search(self, ctx, *args):
         async with ctx.typing():
             search_start = time.time()
-            results = google_search(args)
+            results = ddg_search(args)
             query = " ".join(args)
             embed = Embed(
                 type = "rich",
-                colour = Colour.blue()
+                colour = Colour.from_rgb(200, 200, 200)
             )
             embed.set_author(
-                name=f"Google search results for \"{query}\":",
-                url=f"https://www.google.com/search?q={query}",
-                icon_url="https://cdn.discordapp.com/attachments/692486367422447649/693347077115084830/google_icon.png"
+                name=f"Search results for \"{query}\":",
+                url="https://duckduckgo.com/?q=" + query.replace(' ', '+'),
+                icon_url="https://cdn.discordapp.com/attachments/692486367422447649/693681247385419786/ddg_icon.png"
             )
             for result in results:
                 embed.add_field(name=result[0], value=result[1], inline=False)
-            embed.set_footer(text=f"search took {round((time.time() - search_start))} seconds.")
+            embed.set_footer(text="Search provided by DuckDuckGo.")
         await ctx.send(None, embed=embed)
 
 def setup(bot):

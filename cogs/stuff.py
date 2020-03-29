@@ -62,7 +62,7 @@ class StuffCog(commands.Cog, name="Random Commands"):
         if release_date <= timedelta(0):
             await ctx.send(f"Bannerlord has been released! <:soypepe:432601353148301323>\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
         else:
-            await ctx.send(f"Only **__{release_date.days} days, {hours} hours, {minutes} minutes and {seconds} seconds__** left before Bannerlord is released! <:soypepe:432601353148301323>")
+            await ctx.send(f"Only **__{release_date.days} day(s), {hours} hour(s), {minutes} minute(s) and {seconds} second(s)__** left before Bannerlord is released! <:soypepe:432601353148301323>")
 
 def setup(bot):
     bot.add_cog(StuffCog(bot))
