@@ -83,15 +83,18 @@ class SearchCog(commands.Cog, name="Search Commands"):
 
     @commands.command(name='image', aliases=['i', 'img'], help="Queries DuckDuckGo and returns the first image result")
     async def image_search(self, ctx, *args):
-        async with ctx.typing():
-            result = ddg_image_search(args)
-            embed = Embed(
-                type = "rich",
-                colour = Colour.from_rgb(200, 200, 200)
-            )
+        try:
+            async with ctx.typing():
+                result = ddg_image_search(args)
+                embed = Embed(
+                    type = "rich",
+                    colour = Colour.from_rgb(200, 200, 200)
+                )
 
-            embed.set_image(url=result)
-        await ctx.send(None, embed=embed)
+                embed.set_image(url=result)
+            await ctx.send(None, embed=embed)
+        except Exception as e:
+            await ctx.send(repr(e))
 
 def setup(bot):
     bot.add_cog(SearchCog(bot))
