@@ -55,14 +55,21 @@ class StuffCog(commands.Cog, name="Random Commands"):
     @commands.command(name='bannerlord', help="Countdown to Bannerlord release date")
     async def bannerlord(self, ctx):
         release_date = datetime(2020, 3, 30, 10, 0, 0, 0) - datetime.utcnow()
+
+        days =  release_date.days
         hours = release_date.seconds // 3600
         minutes = (release_date.seconds // 60) % 60
         seconds = release_date.seconds % 60
+        
+        days_s =  f"{release_date.days} day(s), " if release_date.days > 0 else ""
+        hours_s = f"{release_date.seconds // 3600} hour(s), " if hours > 0 else ""
+        minutes_s = f"{(release_date.seconds // 60) % 60} minute(s) and " if minutes > 0 else ""
+        seconds_s = f"{release_date.seconds % 60} second(s)"
 
         if release_date <= timedelta(0):
             await ctx.send(f"Bannerlord has been released! <:soypepe:432601353148301323>\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
         else:
-            await ctx.send(f"Only **__{release_date.days} day(s), {hours} hour(s), {minutes} minute(s) and {seconds} second(s)__** left before Bannerlord is released! <:soypepe:432601353148301323>")
+            await ctx.send(f"Only **__{days_s}{hours_s}{minutes_s}{seconds_s}__** left before Bannerlord is released! <:soypepe:432601353148301323>")
 
 def setup(bot):
     bot.add_cog(StuffCog(bot))
