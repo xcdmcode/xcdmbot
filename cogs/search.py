@@ -26,7 +26,7 @@ class SearchCog(commands.Cog, name="Search Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='search', aliases=['s', 'ddg', 'google'])
+    @commands.command(name='search', aliases=['s', 'ddg', 'google'], help="Queries DuckDuckGo and returns the top 5 results")
     async def ddg_search(self, ctx, *args):
         async with ctx.typing():
             search_start = time.time()

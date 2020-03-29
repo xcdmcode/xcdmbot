@@ -8,7 +8,7 @@ class MediaCog(commands.Cog, name="Media Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='yt')
+    @commands.command(name='yt', help="Queries Youtube and returns the first result")
     async def youtube_search(self, ctx, *args):
         vid_search_url = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=1&q={}&key={}"
         response = requests.get(vid_search_url.format(args, config['youtube_token'])).json()
@@ -16,7 +16,7 @@ class MediaCog(commands.Cog, name="Media Commands"):
 
         await ctx.send(f"https://www.youtube.com/watch?v={videoId}")
 
-    @commands.command(name='lewd')
+    @commands.command(name='lewd', help="Returns a random Danbooru post that matches the given tags")
     async def danbooru_search(self, ctx, *args):
         if ctx.channel.is_nsfw():
             danbooru_api = "http://danbooru.donmai.us/posts.json?limit=1&random=true&tags={}"

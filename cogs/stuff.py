@@ -8,11 +8,11 @@ class StuffCog(commands.Cog, name="Random Commands"):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name='ao')
+    @commands.command(name='ao', help="Sneed")
     async def sneed(self, ctx):
         await ctx.send("sneed")
 
-    @commands.command(name='juan', aliases=['simp'])
+    @commands.command(name='juan', aliases=['simp'], help="Juan moment")
     async def juan(self, ctx):
         embed = Embed(
             type = "rich",
@@ -23,7 +23,7 @@ class StuffCog(commands.Cog, name="Random Commands"):
         await ctx.send(None, embed=embed)
 
     
-    @commands.command(name='pizza', aliases=['pizza_machowave'])
+    @commands.command(name='pizza', aliases=['pizza_machowave'], help="Pizza moment")
     async def pizza(self, ctx):
         embed = Embed(
             type = "rich",
@@ -32,11 +32,11 @@ class StuffCog(commands.Cog, name="Random Commands"):
         embed.set_image(url="https://cdn.discordapp.com/attachments/692486367422447649/693246228238172170/pizza.jpg")
         await ctx.send(None, embed=embed)
 
-    @commands.command(name='alerta', aliases=['macaco'])
+    @commands.command(name='alerta', aliases=['macaco'], help="Alerta de Macaco")
     async def alerta(self, ctx):
         await ctx.send(":monkey: :rotating_light: :monkey: :warning: **ALERTA DE MACACO** :warning: :monkey: :rotating_light: :monkey:\nhttps://files.catbox.moe/09e6gr.mp4")
 
-    @commands.command(name='e')
+    @commands.command(name='e', help="Returns the enlarged version of a server emoji")
     async def large_emoji(self, ctx, arg):
         embed = Embed()
         emoji = None
@@ -52,7 +52,7 @@ class StuffCog(commands.Cog, name="Random Commands"):
         else:
             await ctx.send(f"\"{arg}\" is invalid. The command only works for this server's emoji.")
 
-    @commands.command(name='bannerlord')
+    @commands.command(name='bannerlord', help="Countdown to Bannerlord release date")
     async def bannerlord(self, ctx):
         release_date = datetime(2020, 3, 30, 10, 0, 0, 0) - datetime.utcnow()
         hours = release_date.seconds // 3600
