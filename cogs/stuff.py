@@ -70,6 +70,11 @@ class StuffCog(commands.Cog, name="Random Commands"):
             await ctx.send(f"Bannerlord has been released! <:soypepe:432601353148301323>\nhttps://store.steampowered.com/app/261550/Mount__Blade_II_Bannerlord/")
         else:
             await ctx.send(f"Only **__{days_s}{hours_s}{minutes_s}{seconds_s}__** left before Bannerlord is released! <:soypepe:432601353148301323>")
+    
+    
+    @commands.command(name='version', help="Returns the bot version")
+    async def version(self, ctx):
+        await ctx.send("0.0.1")
 
 def setup(bot):
     bot.add_cog(StuffCog(bot))

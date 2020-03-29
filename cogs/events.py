@@ -20,13 +20,13 @@ class EventsCog(commands.Cog, name="Media Commands"):
             if message.author.id == agentorange_id and contains(message.content, "sneed"):
                 await message.channel.send("sneed")
            
-            cmd_context = await self.bot.get_context(message);
-            if not cmd_context.valid:  
-                #message is not a command
+            # cmd_context = await self.bot.get_context(message);
+            # if not cmd_context.valid:  
+            #     #message is not a command
 
-                msg_list = message.content.lower().split(' ')
-                if len(msg_list) > 1 and "big" in msg_list:
-                    await message.channel.send("for you")
+            #     msg_list = message.content.lower().split(' ')
+            #     if len(msg_list) > 1 and "big" in msg_list:
+            #         await message.channel.send("for you")
 
 def contains(text, regex):
     return bool(re.search(regex, text.lower()))
