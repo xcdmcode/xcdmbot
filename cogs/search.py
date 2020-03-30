@@ -6,6 +6,7 @@ import traceback
 from bs4 import BeautifulSoup
 import json
 import re
+import brotli
 
 # Scrapes the DDG search results page and returns a list of 5 tuples containing a result's title and url.
 def ddg_search(args):
@@ -52,7 +53,7 @@ def ddg_image_search(args):
 
     requests_url = url + "i.js"
     res = requests.get(requests_url, headers=headers, params=params)
-    content = res.text
+    content = brotli.decompress(res.content)
     results = json.loads(content)['results']
     image_url = None
 
