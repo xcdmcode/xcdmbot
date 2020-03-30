@@ -52,7 +52,7 @@ def ddg_image_search(args):
 
     requests_url = url + "i.js"
     res = requests.get(requests_url, headers=headers, params=params)
-    content = res.content
+    content = res.text
     results = json.loads(content)['results']
     image_url = None
 
