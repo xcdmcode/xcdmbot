@@ -2,10 +2,10 @@ import discord
 from discord import Colour, Embed
 from discord.ext import commands
 import requests
+import traceback
 from bs4 import BeautifulSoup
 import json
 import re
-
 
 # Scrapes the DDG search results page and returns a list of 5 tuples containing a result's title and url.
 def ddg_search(args):
@@ -33,7 +33,7 @@ def ddg_image_search(args):
 
     headers = {
         'dnt': '1',
-        'accept-encoding': 'gzip, deflate, sdch, br',
+        'accept-encoding': 'br',
         'x-requested-with': 'XMLHttpRequest',
         'accept-language': 'en-GB,en-US q=0.8,en q=0.6,ms q=0.4',
         'user-agent': 'Mozilla/5.0 (X11  Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36',
@@ -52,8 +52,12 @@ def ddg_image_search(args):
 
     requests_url = url + "i.js"
     res = requests.get(requests_url, headers=headers, params=params)
-    data = json.loads(res.content)
-    image_url = data["results"][0]['image']
+    content = res.content
+    results = json.loads(content)['results']
+    image_url = None
+
+    if len(results) > 0:
+        image_url = results[0]['image']
 
     return image_url
 
@@ -83,15 +87,23 @@ class SearchCog(commands.Cog, name="Search Commands"):
 
     @commands.command(name='image', aliases=['i', 'img'], help="Queries DuckDuckGo and returns the first image result")
     async def image_search(self, ctx, *args):
-        async with ctx.typing():
-            result = ddg_image_search(args)
-            embed = Embed(
-                type = "rich",
-                colour = Colour.from_rgb(200, 200, 200)
-            )
+        try:
+            async with ctx.typing():
+                result = ddg_image_search(args)
 
-            embed.set_image(url=result)
-        await ctx.send(None, embed=embed)
+                embed = Embed(
+                    type = "rich",
+                    colour = Colour.from_rgb(200, 200, 200)
+                )
+            if result != None:
+                embed.set_image(url=result) 
+                await ctx.send(None, embed=embed)
+            else:
+                await ctx.send(f"No images found for \"{' '.join(args)}\". Make sure all words are spelled correctly.")
+        except Exception as e:
+            traceback.print_exc()
+            await ctx.send(f"{str(type(e).__name__)}: {str(e)}")
+        
 
 def setup(bot):
     bot.add_cog(SearchCog(bot))
